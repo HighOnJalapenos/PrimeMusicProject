@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function ArtistCard({ song }) {
-  console.log(song);
   return (
     <Link className="cursor-pointer" to={`/artists/${song?.artist[0]._id}`}>
       <img

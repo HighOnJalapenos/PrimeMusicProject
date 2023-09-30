@@ -1,0 +1,8 @@
+.artist-background {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3),
+    black 50vh,
+    #14191a
+  );
+}

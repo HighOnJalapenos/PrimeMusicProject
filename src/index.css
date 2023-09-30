@@ -24,3 +24,7 @@
 body {
   background-color: rgb(21, 20, 20);
 }
+
+.artist-name:not(:last-child)::after {
+  content: ", ";
+}

@@ -7,11 +7,22 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 import "../styles/SmallCarousel.css";
 import { useDispatch, useSelector } from "react-redux";
+import { setActiveSong, playPause } from "../redux/features/playerSlice";
 
 function SmallCarousel({ mood, data }) {
   // Getting the song data
   const dispatch = useDispatch();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
+
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+  };
+
+  const handlePlayClick = (song, data, i) => {
+    console.log("debug");
+    dispatch(setActiveSong({ song, data, i }));
+    dispatch(playPause(true));
+  };
 
   // Functionality for the arrow
   let scrl = useRef(null);
@@ -62,10 +73,11 @@ function SmallCarousel({ mood, data }) {
         ref={scrl}
         className="scroll-content scroll-smooth snap-mandatory h-60 flex flex-col flex-wrap overflow-x-auto lg:px-14 md:px-9 px-5"
       >
-        {data?.data.map((song, i) => (
+        {data?.data.map((song, i, data) => (
           <div
             className="h-20 py-2 pr-8 snap-start flex items-center md:w-96 w-full"
             key={song._id}
+            onClick={() => handlePlayClick(song, data, i)}
           >
             <SmallCard
               key={song._id}
@@ -74,6 +86,8 @@ function SmallCarousel({ mood, data }) {
               isPlaying={isPlaying}
               activeSong={activeSong}
               data={data}
+              handlePauseClick={handlePauseClick}
+              handlePlayClick={handlePlayClick}
             />
           </div>
         ))}

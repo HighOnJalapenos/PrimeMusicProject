@@ -1,0 +1,8 @@
+.album-background {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3),
+    black 100vh,
+    #14191a
+  );
+}

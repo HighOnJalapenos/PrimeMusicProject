@@ -1,32 +1,33 @@
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import PlayPause from "./PlayPause";
-import { playPause, setActiveSong } from "../redux/features/playerSlice";
+import { useState } from "react";
+import Portal from "./Portal/Portal";
+import ModalContent from "./Portal/ModalContent";
 
-export default function SmallCard({ song, i, isPlaying, activeSong, data }) {
-  const [favVisible, setFavVisible] = useState(false);
-  const dispatch = useDispatch();
-  const handlePauseClick = () => {
-    dispatch(playPause(false));
+export default function SmallCard({
+  song,
+  i,
+  isPlaying,
+  activeSong,
+  data,
+  handlePauseClick,
+  handlePlayClick,
+}) {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleFav = () => {
+    document.documentElement.style.overflow = "hidden";
+    setShowModal(true);
   };
 
-  const handlePlayClick = () => {
-    dispatch(setActiveSong({ song, data, i }));
-    dispatch(playPause(true));
-  };
-
-  const handleHover = () => {
-    setFavVisible(!favVisible);
+  const onModalClose = () => {
+    document.documentElement.style.overflow = "";
+    setShowModal(false);
   };
 
   return (
-    <article
-      onMouseEnter={handleHover}
-      onMouseLeave={handleHover}
-      className="text-slate-200 items-center w-full inline-flex"
-    >
+    <article className="text-slate-200 items-center w-full inline-flex group">
       <div className="relative h-14 w-14 group cursor-pointer flex-shrink-0">
         <div
           className={`absolute inset-0 items-center justify-center bg-black bg-opacity-50 group-hover:flex ${
@@ -41,6 +42,8 @@ export default function SmallCard({ song, i, isPlaying, activeSong, data }) {
             song={song}
             handlePause={handlePauseClick}
             handlePlay={handlePlayClick}
+            data={data}
+            i={i}
           />
         </div>
 
@@ -60,10 +63,19 @@ export default function SmallCard({ song, i, isPlaying, activeSong, data }) {
           </Link>
         </p>
       </div>
-      {favVisible && (
-        <i className="ml-auto hover:cursor-pointer">
-          <FavoriteBorderRoundedIcon />
-        </i>
+      <i
+        onClick={(e) => {
+          e.stopPropagation();
+          handleFav();
+        }}
+        className="group-hover:block hidden ml-auto hover:cursor-pointer"
+      >
+        <FavoriteBorderRoundedIcon />
+      </i>
+      {showModal && (
+        <Portal onClose={onModalClose}>
+          <ModalContent onClose={onModalClose} />
+        </Portal>
       )}
     </article>
   );

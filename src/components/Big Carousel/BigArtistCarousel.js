@@ -1,17 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { useGetTopChartsQuery } from "../../redux/services/shazamCore";
-import { useSelector, useDispatch } from "react-redux";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import ArtistCard from "./ArtistCard";
 
 const BigArtistCarousel = ({ children }) => {
-  const dispatch = useDispatch();
   const { data } = useGetTopChartsQuery();
   const topPlays = data?.data;
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
 
   return (
     <section className="max-w-[1600px] m-auto py-6 mb-5">
