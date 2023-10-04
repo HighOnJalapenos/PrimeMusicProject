@@ -3,9 +3,34 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHomeFill } from "react-icons/go";
 import { BiPodcast } from "react-icons/bi";
 import { FaHeadphones } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { useState } from "react";
+import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux";
+import { setUserLogOut } from "../redux/features/userSlice";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const { name, email, isLoggedIn } = useSelector((state) => state.user);
+  const [dropDownVisible, setDropDownVisible] = useState(false);
+  console.log(isLoggedIn);
+
+  const handleDropDownVisibility = () => {
+    setDropDownVisible(!dropDownVisible);
+  };
+
+  const handleSignOut = (e) => {
+    e.stopPropagation();
+    setDropDownVisible(false);
+    dispatch(setUserLogOut());
+  };
+
+  const handleLogIn = (e) => {
+    e.stopPropagation();
+    setDropDownVisible(false);
+  };
+
   return (
     <nav className="bg-[#0f111199] fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl h-[71px] border-b border-slate-700 flex items-center">
       <div className="max-w-screen-2xl w-full mx-auto flex items-center justify-between">
@@ -24,8 +49,8 @@ export default function Navbar() {
           </div>
         </NavLink>
 
-        <div className="items-center justify-between hidden md:flex ml-10">
-          <ul className="flex sm:flex-row flex-col text-white">
+        <div className="items-center justify-between flex ml-10">
+          <ul className="flex flex-row text-white">
             <NavLink
               to="/"
               className={({ isActive }) => (isActive ? "text-[#25d1da]" : "")}
@@ -79,13 +104,44 @@ export default function Navbar() {
                 placeholder="Search..."
               /> */}
             {/* </div> */}
-            <button
-              type="button"
-              className="inline-flex items-center text-2xl p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden"
-            >
-              <RxHamburgerMenu />
-            </button>
           </div>
+        </div>
+
+        <div className="group flex items-center">
+          <button
+            onClick={handleDropDownVisibility}
+            className="hover:bg-slate-400 bg-white rounded-full text-4xl"
+          >
+            <CgProfile />
+          </button>
+          {dropDownVisible && (
+            <div className="absolute group-hover:block max-w-80 top-[72px] w-80 right-36 z-50 bg-[#000000ea] rounded-lg">
+              <div className="mt-2 flex flex-col items-center justify-center py-10">
+                {!isLoggedIn ? (
+                  <Link className="w-full text-center" to="/login">
+                    <button
+                      onClick={handleLogIn}
+                      className="text-sm border border-slate-400 w-[80%] py-2 px-1 bg-[#25d1da] hover:bg-[#a8edf0] rounded-full hover:scale-110"
+                    >
+                      Log In
+                    </button>
+                  </Link>
+                ) : (
+                  <>
+                    <p className="text-sm text-white w-[80%] py-2 pb-1 text-center">
+                      Hello, {name}!
+                    </p>
+                    <button
+                      onClick={handleSignOut}
+                      className="text-sm border border-slate-400 w-[80%] py-2 px-1 bg-[#25d1da] hover:bg-[#a8edf0] rounded-full hover:scale-110"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>

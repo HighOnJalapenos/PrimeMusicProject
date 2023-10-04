@@ -1,4 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
 
 export default function ModalContent({ onClose }) {
   const handleClick = (e) => {
@@ -29,12 +30,16 @@ export default function ModalContent({ onClose }) {
           free shipping and video streaming.
         </p>
         <div className="text-center">
-          <button className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-2 py-2 px-4 border-[#25d1da] text-[#25d1da] hover:bg-[#25d1da] hover:text-black active:ring-4">
-            ALREADY A CUSTOMER? SIGN IN
-          </button>
-          <button className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-0 py-2 px-4 text-black bg-[#25d1da] md:hover:scale-110 active:ring-4">
-            TRY NOW
-          </button>
+          <Link to="/login">
+            <button className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-2 py-2 px-4 border-[#25d1da] text-[#25d1da] hover:bg-[#25d1da] hover:text-black active:ring-4">
+              ALREADY A CUSTOMER? SIGN IN
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-0 py-2 px-4 text-black bg-[#25d1da] md:hover:scale-110 active:ring-4">
+              TRY NOW
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import PlayPause from "./PlayPause";
 import { useState } from "react";
 import Portal from "./Portal/Portal";
 import ModalContent from "./Portal/ModalContent";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 export default function SmallCard({
   song,
@@ -14,11 +15,14 @@ export default function SmallCard({
   handlePauseClick,
   handlePlayClick,
 }) {
+  const { isLoggedIn, token } = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
 
   const handleFav = () => {
-    document.documentElement.style.overflow = "hidden";
-    setShowModal(true);
+    if (!isLoggedIn) {
+      document.documentElement.style.overflow = "hidden";
+      setShowModal(true);
+    }
   };
 
   const onModalClose = () => {
