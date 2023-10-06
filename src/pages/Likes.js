@@ -1,10 +1,5 @@
-import { useParams } from "react-router-dom";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import {
-  useGetAlbumDetailsQuery,
-  useGetArtistDetailsQuery,
-} from "../redux/services/shazamCore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import PlayPauseAlbumSong from "../components/PlayPauseAlbumSong";
@@ -16,15 +11,36 @@ import Portal from "../components/Portal/Portal";
 import ModalContent from "../components/Portal/ModalContent";
 import { addFavSongs, removeFavSongs } from "../redux/features/userSlice";
 import axios from "../api/axios";
+import myLikes from "../assets/myLikes.webp";
+import { useNavigate } from "react-router-dom";
 
-export default function Album() {
-  const { id: albumID } = useParams();
-  const { data } = useGetAlbumDetailsQuery(albumID);
-  const album = data?.data;
+import { useGetArtistDetailsQuery } from "../redux/services/shazamCore";
+
+export default function Likes() {
+  const [album, setAlbum] = useState([]);
   const [duration, setDuration] = useState([]);
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { isLoggedIn, token, favSongs } = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getFav();
+  }, []);
+
+  const getFav = async () => {
+    try {
+      const res = await axios.get("/music/favorites/like", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res?.data.data.songs);
+      setAlbum(res?.data.data.songs);
+    } catch (err) {
+      console.log(err?.response?.data?.message);
+    }
+  };
 
   const dispatch = useDispatch();
   const handlePauseClick = () => {
@@ -42,11 +58,9 @@ export default function Album() {
     setDuration((prev) => [...prev, songDuration || 0]);
   };
 
-  const onModalClose = (e) => {
+  const onModalClose = () => {
+    navigate("/");
     console.log("debug");
-    e.stopPropagation();
-    document.documentElement.style.overflow = "";
-    setShowModal(false);
   };
 
   const handleFav = (song) => {
@@ -81,17 +95,13 @@ export default function Album() {
     }
   };
 
-  // Converting the seconds in duration to minutes-seconds format
-
-  const artists = album?.artists || [];
-  const dateString = album?.release.slice(0, 10);
-  const date = new Date(dateString);
-  const releaseDate = date.toDateString();
-
-  const artistNames =
-    artists.length <= 3
-      ? artists.map((artist) => artist.name).join(" & ")
-      : "Various Artists";
+  if (!isLoggedIn) {
+    return (
+      <Portal>
+        <ModalContent onClose={onModalClose} />
+      </Portal>
+    );
+  }
 
   return (
     <Fragment>
@@ -100,37 +110,32 @@ export default function Album() {
           style={{ insetInlineStart: 0, insetInlineEnd: 0 }}
           className="h-full absolute top-0"
         >
-          <div
-            style={{ backgroundImage: `url(${album?.image})` }}
-            className="h-screen w-full top-0 -z-10 fixed bg-cover bg-center transition-[background-image] duration-[1s] ease-[ease-in] delay-[0s] blur-xl"
-          ></div>
+          <div className="bg-[url('https://m.media-amazon.com/images/G/01/Music/Curate/052720_Mylikes_PL_FT_PL_Tile_2400x2400._UX358_FMwebp_QL85_.jpg')] h-screen w-full top-0 -z-10 fixed bg-cover bg-center transition-[background-image] duration-[1s] ease-[ease-in] delay-[0s] blur-xl"></div>
           <div className="album-background sticky max-h-[200vh] top-[-100vh] h-full -z-10"></div>
         </div>
         <div className="md:px-14 px-5 flex md:flex-row flex-col items-center mb-8">
           <img
             className="md:h-72 md:w-72 h-32 w-32 rounded"
-            src={album?.image}
+            src={myLikes}
             alt="album_image"
           />
           <div className="md:pl-8 md:inline-block md:self-end md:text-left text-center">
             <div className="text-xs font-bold text-[#25D1DA] mb-3 mt-3">
-              ALBUM
+              PLAYLIST
             </div>
             <h1 className="xl:text-6xl text-4xl font-bold text-white mb-3">
-              {album?.title}
+              My Likes
             </h1>
-            <div className="text-sm text-slate-300 mb-3">{artistNames}</div>
-            <p className="mb-3 text-sm text-slate-300">
-              {album?.songs?.length} songs {String.fromCharCode(8226)}{" "}
-              {releaseDate}
+            <p className=" text-sm text-slate-400">
+              All the songs you 'like,' all in one place
             </p>
-            <p className=" text-sm text-slate-400">{album?.description}</p>
           </div>
         </div>
 
         <div className="pt-3 md:px-14 px-0">
+          {console.log(album)}
           <ul>
-            {album?.songs?.map((song, i, data) => {
+            {album?.map((song, i, data) => {
               return (
                 <Fragment key={song._id}>
                   {/* Get duration of the song */}
@@ -171,11 +176,6 @@ export default function Album() {
                       }}
                       className="md:pr-5 pr-1 hover:cursor-pointer text-white"
                     >
-                      {showModal && (
-                        <Portal onClose={onModalClose}>
-                          <ModalContent onClose={onModalClose} />
-                        </Portal>
-                      )}
                       {favSongs.includes(song?._id) ? (
                         <FavoriteOutlinedIcon />
                       ) : (
@@ -203,11 +203,6 @@ function ArtistBeatifiedNames({ artist }) {
     );
   });
   return names;
-  // };
-  // getNames();
-  // return names
-  //   ? [names.slice(0, -1).join(", "), names.slice(-1)].join(" & ")
-  //   : "";
 }
 
 function ArtistDetails({ artistID }) {

@@ -5,6 +5,7 @@ const initialState = {
   token: "",
   name: "",
   email: "",
+  favSongs: [],
 };
 
 const userSlice = createSlice({
@@ -12,7 +13,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserLogIn: (state, action) => {
-      console.log(action.payload);
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.name = action.payload.name;
@@ -24,10 +24,34 @@ const userSlice = createSlice({
       state.token = "";
       state.name = "";
       state.email = "";
+      state.favSongs = [];
+    },
+
+    setFavSongs: (state, action) => {
+      console.log(action.payload);
+      state.favSongs = action.payload.map((song) => {
+        return song._id;
+      });
+    },
+
+    addFavSongs: (state, action) => {
+      state.favSongs = [...state.favSongs, action.payload];
+    },
+
+    removeFavSongs: (state, action) => {
+      state.favSongs = state.favSongs.filter((songId) => {
+        return songId !== action.payload;
+      });
     },
   },
 });
 
-export const { setUserLogIn, setUserLogOut } = userSlice.actions;
+export const {
+  setUserLogIn,
+  setUserLogOut,
+  setFavSongs,
+  addFavSongs,
+  removeFavSongs,
+} = userSlice.actions;
 
 export default userSlice.reducer;

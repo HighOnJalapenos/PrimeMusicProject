@@ -8,6 +8,12 @@ export default function ModalContent({ onClose }) {
       onClose();
     }
   };
+
+  const handleButtonClick = (e) => {
+    e.stopPropagation();
+    document.documentElement.style.overflow = "";
+  };
+
   return (
     <div
       onClick={handleClick}
@@ -17,7 +23,7 @@ export default function ModalContent({ onClose }) {
         <div className="mb-6">
           <button
             onClick={onClose}
-            class="text-white hover:bg-[#ffffff4d] bg-[#ffffff26] p-2 rounded-full block ml-auto"
+            className="text-white hover:bg-[#ffffff4d] bg-[#ffffff26] p-2 rounded-full block ml-auto"
           >
             <CloseIcon />
           </button>
@@ -31,12 +37,18 @@ export default function ModalContent({ onClose }) {
         </p>
         <div className="text-center">
           <Link to="/login">
-            <button className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-2 py-2 px-4 border-[#25d1da] text-[#25d1da] hover:bg-[#25d1da] hover:text-black active:ring-4">
+            <button
+              onClick={handleButtonClick}
+              className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-2 py-2 px-4 border-[#25d1da] text-[#25d1da] hover:bg-[#25d1da] hover:text-black active:ring-4"
+            >
               ALREADY A CUSTOMER? SIGN IN
             </button>
           </Link>
           <Link to="/signup">
-            <button className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-0 py-2 px-4 text-black bg-[#25d1da] md:hover:scale-110 active:ring-4">
+            <button
+              onClick={handleButtonClick}
+              className="md:inline-block md:max-w-fit w-full block md:m-3 m-0 mb-2 font-bold rounded-full text-xs border-0 py-2 px-4 text-black bg-[#25d1da] md:hover:scale-110 active:ring-4"
+            >
               TRY NOW
             </button>
           </Link>

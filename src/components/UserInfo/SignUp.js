@@ -43,7 +43,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "/signup",
+        "/user/signup",
         JSON.stringify({
           name: name,
           email: email,

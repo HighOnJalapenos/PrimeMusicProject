@@ -8,6 +8,8 @@ import Album from "./pages/Album";
 import Artist from "./pages/Artist";
 import Login from "./components/UserInfo/Login";
 import SignUp from "./components/UserInfo/SignUp";
+import Likes from "./pages/Likes";
+import Search from "./pages/Search";
 
 function App() {
   const { activeSong } = useSelector((state) => state.player);
@@ -21,7 +23,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/album/:id" element={<Album />} />
           <Route path="/artists/:id" element={<Artist />} />
+          <Route path="/Library" element={<Likes />} />
           <Route path="*" element={<Home />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </div>
       {activeSong?.title && (

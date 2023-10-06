@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "../../api/axios";
 import { useDispatch } from "react-redux";
-import { setUserLogIn } from "../../redux/features/userSlice";
+import { setUserLogIn, setFavSongs } from "../../redux/features/userSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -40,12 +40,26 @@ export default function Login() {
     setErrorMsg("");
   }, [email, pwd]);
 
+  const getFav = async (token) => {
+    try {
+      const res = await axios.get("/music/favorites/like", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res);
+      dispatch(setFavSongs(res?.data?.data?.songs));
+    } catch (err) {
+      console.log(err?.response?.data?.message);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("debug");
     try {
       const res = await axios.post(
-        "/login",
+        "/user/login",
         JSON.stringify({
           email: email,
           password: pwd,
@@ -53,11 +67,10 @@ export default function Login() {
         })
       );
       setSuccess(true);
-      console.log(res);
+      getFav(res?.data?.token);
       const token = res?.data?.token;
       const name = res?.data?.data?.name;
       const Email = res?.data?.data?.email;
-      console.log(token, name, Email);
       dispatch(
         setUserLogIn({
           token: token,

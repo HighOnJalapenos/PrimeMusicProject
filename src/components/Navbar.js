@@ -9,12 +9,17 @@ import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
 import { setUserLogOut } from "../redux/features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const { name, email, isLoggedIn } = useSelector((state) => state.user);
   const [dropDownVisible, setDropDownVisible] = useState(false);
-  console.log(isLoggedIn);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/search");
+  };
 
   const handleDropDownVisibility = () => {
     setDropDownVisible(!dropDownVisible);
@@ -34,8 +39,8 @@ export default function Navbar() {
   return (
     <nav className="bg-[#0f111199] fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl h-[71px] border-b border-slate-700 flex items-center">
       <div className="max-w-screen-2xl w-full mx-auto flex items-center justify-between">
-        <NavLink to="/">
-          <div className="pl-5 flex-shrink-0 sm:pt-2">
+        <NavLink className="flex-shrink-0" to="/">
+          <div className="pl-5 sm:pt-2">
             <img
               src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"
               alt="Amazon Music logo lg"
@@ -70,7 +75,10 @@ export default function Navbar() {
                 </span>
               </li>
             </NavLink>
-            <NavLink to="">
+            <NavLink
+              to="/Library"
+              className={({ isActive }) => (isActive ? "text-[#25d1da]" : "")}
+            >
               <li className="text-xl flex items-center pr-5 hover:text-[#a8edf0]">
                 <FaHeadphones className="text-2xl" />
                 <span className="px-3 text-base font-bold lg:block hidden">
@@ -84,8 +92,9 @@ export default function Navbar() {
         <div className="ml-auto pr-5 w-full sm:basis-1/2 z-10">
           <div className="relative h-[70px] flex items-center">
             <input
+              onClick={handleClick}
               type="text"
-              className="absolute end-0 block w-52 rounded-full focus:rounded-none focus:bg-[#ffffff26] focus:w-full focus:h-full p-2 pl-10 text-sm transition-all delay-100 ease-in outline-none text-white"
+              className="absolute md:block hidden end-0 w-52 rounded-full focus:rounded-none focus:bg-[#ffffff26] focus:w-full focus:h-full p-2 pl-10 text-sm transition-all delay-100 ease-in outline-none text-white"
               placeholder="Search..."
             />
             <button type="button" className="absolute right-3 text-xl">
@@ -110,12 +119,12 @@ export default function Navbar() {
         <div className="group flex items-center">
           <button
             onClick={handleDropDownVisibility}
-            className="hover:bg-slate-400 bg-white rounded-full text-4xl"
+            className="hover:bg-slate-400 bg-white rounded-full text-4xl mr-3"
           >
             <CgProfile />
           </button>
           {dropDownVisible && (
-            <div className="absolute group-hover:block max-w-80 top-[72px] w-80 right-36 z-50 bg-[#000000ea] rounded-lg">
+            <div className="absolute group-hover:block max-w-80 top-[72px] sm:w-80 lg:right-12 md:right-10 sm:right-6 right-0 w-full z-50 bg-[#000000ea] rounded-lg">
               <div className="mt-2 flex flex-col items-center justify-center py-10">
                 {!isLoggedIn ? (
                   <Link className="w-full text-center" to="/login">

@@ -26,8 +26,11 @@ function SmallCarousel({ mood, data }) {
 
   // Functionality for the arrow
   let scrl = useRef(null);
+  let size = useRef(null);
   const [scrollX, setscrollX] = useState(0);
   const [scrolEnd, setscrolEnd] = useState(false);
+
+  let offset = size.current?.offsetWidth + 32;
 
   const slide = (shift) => {
     scrl.current.scrollLeft += shift;
@@ -48,14 +51,14 @@ function SmallCarousel({ mood, data }) {
       <div className="text-slate-50 flex justify-between lg:px-14 md:px-9 px-5">
         <div className="md:text-xl text-base font-bold">{mood} Songs</div>
         <div className="text-2xl">
-          <button className="prev pr-3" onClick={() => slide(-416)}>
+          <button className="prev pr-3" onClick={() => slide(-offset)}>
             <LiaAngleDoubleLeftSolid />
           </button>
 
           <button
             disabled={scrolEnd}
             className=" next pl-3"
-            onClick={() => slide(416)}
+            onClick={() => slide(offset)}
           >
             <LiaAngleDoubleRightSolid />
           </button>
@@ -63,10 +66,11 @@ function SmallCarousel({ mood, data }) {
       </div>
       <div
         ref={scrl}
-        className="scroll-content scroll-smooth snap-mandatory h-60 flex flex-col flex-wrap overflow-x-auto lg:mx-14 md:mx-9 mx-5"
+        className="scroll-content scroll-smooth snap-mandatory h-60 flex flex-col flex-wrap overflow-x-auto lg:px-14 md:px-9 px-5"
       >
         {data?.data.map((song, i, data) => (
           <div
+            ref={size}
             className="h-20 py-2 mr-8 snap-start flex items-center md:w-96 w-full"
             key={song._id}
             onClick={() => handlePlayClick(song, data, i)}

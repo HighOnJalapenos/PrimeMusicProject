@@ -1,10 +1,14 @@
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import { Link } from "react-router-dom";
 import PlayPause from "./PlayPause";
 import { useState } from "react";
 import Portal from "./Portal/Portal";
 import ModalContent from "./Portal/ModalContent";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import axios from "../api/axios";
+import { useDispatch } from "react-redux";
+import { addFavSongs, removeFavSongs } from "../redux/features/userSlice";
 
 export default function SmallCard({
   song,
@@ -15,13 +19,39 @@ export default function SmallCard({
   handlePauseClick,
   handlePlayClick,
 }) {
-  const { isLoggedIn, token } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { isLoggedIn, token, favSongs } = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
 
-  const handleFav = () => {
+  const handleFav = (song) => {
     if (!isLoggedIn) {
       document.documentElement.style.overflow = "hidden";
       setShowModal(true);
+    } else {
+      addFav(song._id);
+    }
+  };
+
+  const addFav = async (id) => {
+    if (favSongs.includes(id)) {
+      dispatch(removeFavSongs(id));
+    } else {
+      dispatch(addFavSongs(id));
+    }
+    try {
+      const res = await axios.patch(
+        "/music/favorites/like",
+        {
+          songId: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -70,11 +100,15 @@ export default function SmallCard({
       <i
         onClick={(e) => {
           e.stopPropagation();
-          handleFav();
+          handleFav(song);
         }}
         className="group-hover:block hidden ml-auto hover:cursor-pointer"
       >
-        <FavoriteBorderRoundedIcon />
+        {favSongs.includes(song?._id) ? (
+          <FavoriteOutlinedIcon />
+        ) : (
+          <FavoriteBorderRoundedIcon />
+        )}
       </i>
       {showModal && (
         <Portal onClose={onModalClose}>
