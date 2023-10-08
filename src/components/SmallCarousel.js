@@ -13,6 +13,7 @@ function SmallCarousel({ mood, data }) {
   // Getting the song data
   const dispatch = useDispatch();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
+  console.log(data);
 
   const handlePauseClick = () => {
     dispatch(playPause(false));

@@ -13,8 +13,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const { name, email, isLoggedIn } = useSelector((state) => state.user);
+  const { name, isLoggedIn } = useSelector((state) => state.user);
   const [dropDownVisible, setDropDownVisible] = useState(false);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -34,6 +35,18 @@ export default function Navbar() {
   const handleLogIn = (e) => {
     e.stopPropagation();
     setDropDownVisible(false);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim() === "") {
+      return;
+    }
+    navigate(`/search/${search.trim()}`);
+  };
+
+  const updateSearchTerm = (e) => {
+    setSearch(e.target.value);
   };
 
   return (
@@ -90,15 +103,22 @@ export default function Navbar() {
         </div>
 
         <div className="ml-auto pr-5 w-full sm:basis-1/2 z-10">
-          <div className="relative h-[70px] flex items-center">
+          <form
+            onSubmit={handleSearch}
+            className="relative h-[70px] flex items-center"
+          >
             <input
               onClick={handleClick}
+              onChange={updateSearchTerm}
               type="text"
-              className="absolute md:block hidden end-0 w-52 rounded-full focus:rounded-none focus:bg-[#ffffff26] focus:w-full focus:h-full p-2 pl-10 text-sm transition-all delay-100 ease-in outline-none text-white"
+              className="absolute md:block hidden end-0 rounded-full focus:rounded-none focus:bg-[#ffffff26] focus:text-white focus:w-full focus:h-full h-9 w-64 pl-6 pr-16 text-sm transition-all delay-100 ease-in outline-none text-black"
               placeholder="Search..."
             />
-            <button type="button" className="absolute right-3 text-xl">
-              <BsSearch />
+            <button
+              type="submit"
+              className="absolute right-3 text-xl h-9 w-9 rounded-full bg-[#ffffff0d]"
+            >
+              <BsSearch className="m-auto" />
             </button>
             {/* <button type="button" className="md:hidden text-2xl">
               <BsSearch />
@@ -113,7 +133,7 @@ export default function Navbar() {
                 placeholder="Search..."
               /> */}
             {/* </div> */}
-          </div>
+          </form>
         </div>
 
         <div className="group flex items-center">

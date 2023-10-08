@@ -87,6 +87,7 @@ export default function Album() {
   const dateString = album?.release.slice(0, 10);
   const date = new Date(dateString);
   const releaseDate = date.toDateString();
+  console.log(album, "album");
 
   const artistNames =
     artists.length <= 3

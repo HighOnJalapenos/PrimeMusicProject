@@ -10,6 +10,7 @@ import Login from "./components/UserInfo/Login";
 import SignUp from "./components/UserInfo/SignUp";
 import Likes from "./pages/Likes";
 import Search from "./pages/Search";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   const { activeSong } = useSelector((state) => state.player);
@@ -26,6 +27,7 @@ function App() {
           <Route path="/Library" element={<Likes />} />
           <Route path="*" element={<Home />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/search/:searchQuery" element={<SearchResults />} />
         </Routes>
       </div>
       {activeSong?.title && (

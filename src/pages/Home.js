@@ -46,7 +46,7 @@ function Home() {
       )}
 
       {/* Trending Artists */}
-      <BigArtistCarousel />
+      <BigArtistCarousel query={useGetTopChartsQuery} />
 
       {/* Songs Based on Mood excited, romantic, happy */}
       {isFetchingExcited ? (

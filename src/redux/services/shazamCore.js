@@ -34,6 +34,15 @@ export const shazamCoreApi = createApi({
     getAlbumDetails: builder.query({
       query: (albumID) => `/music/album/${albumID}`,
     }),
+    getSearchSongs: builder.query({
+      query: (searchTerm) => `/music/song?search={"title":"${searchTerm}"}`,
+    }),
+    getSearchAlbum: builder.query({
+      query: (searchTerm) => `/music/album?search={"title":"${searchTerm}"}`,
+    }),
+    getSearchArtist: builder.query({
+      query: (searchTerm) => `/music/artist?search={"name":"${searchTerm}"}`,
+    }),
   }),
 });
 
@@ -46,4 +55,7 @@ export const {
   useGetRomanticSongsQuery,
   useGetTopAlbumsQuery,
   useGetAlbumDetailsQuery,
+  useGetSearchAlbumQuery,
+  useGetSearchArtistQuery,
+  useGetSearchSongsQuery,
 } = shazamCoreApi;
