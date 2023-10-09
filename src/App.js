@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -11,8 +11,15 @@ import SignUp from "./components/UserInfo/SignUp";
 import Likes from "./pages/Likes";
 import Search from "./pages/Search";
 import SearchResults from "./components/SearchResults";
+import { useEffect } from "react";
+import { isUserLoggedIn } from "./redux/features/userSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(isUserLoggedIn());
+  }, []);
+
   const { activeSong } = useSelector((state) => state.player);
   return (
     <div className="scroll-smooth relative no-scrollbar">

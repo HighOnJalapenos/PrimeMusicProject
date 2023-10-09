@@ -12,7 +12,18 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    isUserLoggedIn: (state) => {
+      const token = localStorage.getItem("primeMusicToken");
+      if (token) {
+        const name = localStorage.getItem("primeMusicUserName");
+        state.token = token;
+        state.name = name;
+        state.isLoggedIn = true;
+      }
+    },
     setUserLogIn: (state, action) => {
+      localStorage.setItem("primeMusicToken", action.payload.token);
+      localStorage.setItem("primeMusicUserName", action.payload.name);
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.name = action.payload.name;
@@ -20,11 +31,9 @@ const userSlice = createSlice({
     },
 
     setUserLogOut: (state) => {
-      state.isLoggedIn = false;
-      state.token = "";
-      state.name = "";
-      state.email = "";
-      state.favSongs = [];
+      localStorage.removeItem("primeMusicToken");
+      localStorage.removeItem("primeMusicUserName");
+      return initialState;
     },
 
     setFavSongs: (state, action) => {
@@ -52,6 +61,7 @@ export const {
   setFavSongs,
   addFavSongs,
   removeFavSongs,
+  isUserLoggedIn,
 } = userSlice.actions;
 
 export default userSlice.reducer;

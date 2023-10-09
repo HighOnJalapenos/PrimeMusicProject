@@ -5,7 +5,7 @@ export const shazamCoreApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://academics.newtonschool.co/api/v1",
     prepareHeaders: (headers) => {
-      headers.set("projectId", "c4oeb3ucmlyq");
+      headers.set("projectId", process.env.REACT_APP_PROJECT_ID);
       return headers;
     },
   }),

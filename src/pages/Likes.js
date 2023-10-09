@@ -26,7 +26,7 @@ export default function Likes() {
 
   useEffect(() => {
     getFav();
-  }, []);
+  }, [isLoggedIn]);
 
   const getFav = async () => {
     try {
