@@ -1,17 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
-import { useGetTopAlbumsQuery } from "../../redux/services/shazamCore";
-import { useSelector, useDispatch } from "react-redux";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import AlbumCard from "./AlbumCard";
 
-const BigAlbumCarousel = ({ children }) => {
-  const dispatch = useDispatch();
-  const { data } = useGetTopAlbumsQuery();
-  const topPlays = data?.data;
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
+const BigAlbumCarousel = ({ data }) => {
+  const topAlbums = data?.data;
 
   return (
     <section className="max-w-[1600px] m-auto py-6 mb-5">
@@ -24,7 +19,7 @@ const BigAlbumCarousel = ({ children }) => {
         modules={[FreeMode]}
         style={{ paddingLeft: "56px", paddingRight: "56px" }}
       >
-        {topPlays?.map((album, i) => (
+        {topAlbums?.map((album, i) => (
           <SwiperSlide
             key={album?._id}
             style={{

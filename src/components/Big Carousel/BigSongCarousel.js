@@ -1,15 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
-import { useGetTopChartsQuery } from "../../redux/services/shazamCore";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import SongCard from "./SongCard";
 
-const BigSongCarousel = ({ children }) => {
-  const dispatch = useDispatch();
-  const { data } = useGetTopChartsQuery();
+const BigSongCarousel = ({ data }) => {
   const topPlays = data?.data;
   const { activeSong, isPlaying } = useSelector((state) => state.player);
 
@@ -24,7 +21,7 @@ const BigSongCarousel = ({ children }) => {
         modules={[FreeMode]}
         style={{ paddingLeft: "56px", paddingRight: "56px" }}
       >
-        {topPlays?.map((song, i) => (
+        {topPlays?.map((song, i, data) => (
           <SwiperSlide
             key={song?._id}
             style={{

@@ -5,10 +5,8 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import ArtistCard from "./ArtistCard";
 
-const BigArtistCarousel = ({ query }) => {
-  const { data } = query();
-  const topPlays = data?.data;
-  console.log(topPlays);
+const BigArtistCarousel = ({ data }) => {
+  const topArtists = data?.data;
 
   return (
     <section className="max-w-[1600px] m-auto py-6 mb-5">
@@ -21,9 +19,9 @@ const BigArtistCarousel = ({ query }) => {
         modules={[FreeMode]}
         style={{ paddingLeft: "56px", paddingRight: "56px" }}
       >
-        {topPlays?.map((song, i) => (
+        {topArtists?.map((artist, i) => (
           <SwiperSlide
-            key={song?._id}
+            key={artist?._id}
             style={{
               width: "224px",
               height: "100%",
@@ -32,7 +30,7 @@ const BigArtistCarousel = ({ query }) => {
             }}
             className="animate-slideright"
           >
-            <ArtistCard song={song} />
+            <ArtistCard artist={artist} />
           </SwiperSlide>
         ))}
       </Swiper>

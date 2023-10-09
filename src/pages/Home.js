@@ -2,73 +2,41 @@ import SmallCarousel from "../components/SmallCarousel";
 import BigSongCarousel from "../components/Big Carousel/BigSongCarousel";
 import BigArtistCarousel from "../components/Big Carousel/BigArtistCarousel";
 import BigAlbumCarousel from "../components/Big Carousel/BigAlbumCarousel";
-import Loader from "../components/Loader";
 
 import {
   useGetTopChartsQuery,
   useGetExcitedSongsQuery,
   useGetHappySongsQuery,
   useGetRomanticSongsQuery,
+  useGetTopArtistQuery,
+  useGetTopAlbumsQuery,
 } from "../redux/services/shazamCore";
-import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
-  const dispatch = useDispatch();
-  const { activeSong, isPlaying } = useSelector((state) => state.player);
-  const {
-    data: trendingSong,
-    isFetchingTrending,
-    errorTrending,
-  } = useGetTopChartsQuery();
-  const {
-    data: excitedSong,
-    isFetchingExcited,
-    errorExcited,
-  } = useGetExcitedSongsQuery();
-  const {
-    data: happySong,
-    isFetchingHappy,
-    errorHappy,
-  } = useGetHappySongsQuery();
-  const {
-    data: romanticSong,
-    isFetchingRomantic,
-    errorRomantic,
-  } = useGetRomanticSongsQuery();
+  const { data: trendingSong } = useGetTopChartsQuery();
+  const { data: excitedSong } = useGetExcitedSongsQuery();
+  const { data: happySong } = useGetHappySongsQuery();
+  const { data: romanticSong } = useGetRomanticSongsQuery();
+  const { data: trendingArtist } = useGetTopArtistQuery();
+  const { data: trendingAlbum } = useGetTopAlbumsQuery();
 
   return (
     <>
       {/* Trending Songs */}
-      {isFetchingTrending ? (
-        <Loader />
-      ) : (
-        <SmallCarousel data={trendingSong} mood={"Trending"} />
-      )}
+      <SmallCarousel data={trendingSong} mood={"Trending"} />
 
       {/* Trending Artists */}
-      <BigArtistCarousel query={useGetTopChartsQuery} />
+      <BigArtistCarousel data={trendingArtist} />
 
       {/* Songs Based on Mood excited, romantic, happy */}
-      {isFetchingExcited ? (
-        <Loader />
-      ) : (
-        <SmallCarousel data={excitedSong} mood={"Excited"} />
-      )}
+      <SmallCarousel data={excitedSong} mood={"Excited"} />
 
-      {isFetchingExcited ? <Loader /> : <BigAlbumCarousel />}
+      <BigAlbumCarousel data={trendingAlbum} />
 
-      {isFetchingRomantic ? (
-        <Loader />
-      ) : (
-        <SmallCarousel data={romanticSong} mood={"Romantic"} />
-      )}
-      {isFetchingHappy ? (
-        <Loader />
-      ) : (
-        <SmallCarousel data={happySong} mood={"Happy"} />
-      )}
+      <SmallCarousel data={romanticSong} mood={"Romantic"} />
+      <SmallCarousel data={happySong} mood={"Happy"} />
 
-      {isFetchingTrending ? <Loader /> : <BigSongCarousel />}
+      <BigSongCarousel data={trendingSong} />
     </>
   );
 }

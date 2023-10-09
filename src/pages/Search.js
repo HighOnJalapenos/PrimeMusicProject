@@ -1,8 +1,20 @@
 import { useLocation } from "react-router-dom";
 import SearchResults from "../components/SearchResults";
+import { useEffect, useState } from "react";
 
 const Search = () => {
   const { pathname } = useLocation();
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    recover();
+  }, []);
+
+  const recover = () => {
+    let data = JSON.parse(localStorage.getItem("history"));
+    setHistory(data);
+  };
+
   return (
     <>
       {pathname === "/search" ? (

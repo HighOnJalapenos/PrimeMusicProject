@@ -3,8 +3,7 @@ import {
   LiaAngleDoubleRightSolid,
   LiaAngleDoubleLeftSolid,
 } from "react-icons/lia";
-import { useState, useEffect } from "react";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import "../styles/SmallCarousel.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveSong, playPause } from "../redux/features/playerSlice";
@@ -13,7 +12,6 @@ function SmallCarousel({ mood, data }) {
   // Getting the song data
   const dispatch = useDispatch();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
-  console.log(data);
 
   const handlePauseClick = () => {
     dispatch(playPause(false));
