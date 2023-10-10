@@ -18,8 +18,6 @@ const SearchResults = () => {
   const { data: albumResult, error: albumError } =
     useGetSearchAlbumQuery(searchQuery);
 
-  console.log(artistResult?.data);
-
   return (
     <div className="max-w-[1600px] m-auto py-6">
       <div className="text-slate-50 flex flex-col justify-between lg:px-14 md:px-9 px-5 mt-5">

@@ -1,10 +1,9 @@
 import { BsSearch } from "react-icons/bs";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHomeFill } from "react-icons/go";
 import { BiPodcast } from "react-icons/bi";
 import { FaHeadphones } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
@@ -17,6 +16,24 @@ export default function Navbar() {
   const [dropDownVisible, setDropDownVisible] = useState(false);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const [showInput, setShowInput] = useState(false);
+  const inputRef = useRef();
+
+  const handleShowInput = () => {
+    if (window.innerWidth < 768) {
+      console.log(!showInput && inputRef.current);
+      !showInput && inputRef.current.focus();
+      setShowInput(!showInput);
+    }
+  };
+
+  const addLocalStorage = () => {
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    if (!history.includes(search.trim())) {
+      history.push(search.trim());
+    }
+    localStorage.setItem("history", JSON.stringify(history));
+  };
 
   const handleClick = () => {
     navigate("/search");
@@ -42,6 +59,7 @@ export default function Navbar() {
     if (search.trim() === "") {
       return;
     }
+    addLocalStorage();
     navigate(`/search/${search.trim()}`);
   };
 
@@ -67,7 +85,7 @@ export default function Navbar() {
           </div>
         </NavLink>
 
-        <div className="items-center justify-between flex ml-10">
+        <div className="items-center justify-between flex ml-5 md:ml-10">
           <ul className="flex flex-row text-white">
             <NavLink
               to="/"
@@ -102,37 +120,33 @@ export default function Navbar() {
           </ul>
         </div>
 
-        <div className="ml-auto pr-5 w-full sm:basis-1/2 z-10">
+        <div className="ml-auto md:pr-5 pr-0 w-full sm:basis-1/2 z-10">
           <form
             onSubmit={handleSearch}
             className="relative h-[70px] flex items-center"
           >
             <input
+              ref={inputRef}
+              onBlur={handleShowInput}
               onClick={handleClick}
               onChange={updateSearchTerm}
               type="text"
-              className="absolute md:block hidden end-0 rounded-full focus:rounded-none focus:bg-[#ffffff26] focus:text-white focus:w-full focus:h-full h-9 w-64 pl-6 pr-16 text-sm transition-all delay-100 ease-in outline-none text-black"
+              className={`absolute md:block ${
+                window.innerWidth > 768
+                  ? "block"
+                  : showInput
+                  ? "block z-[51] focus:fixed focus:left-0 focus:right-0 focus:top-0"
+                  : "opacity-0 pointer-events-none"
+              } end-0 rounded-full focus:rounded-none md:focus:bg-[#ffffff26] focus:bg-[#000000] focus:text-white focus:w-full focus:h-full h-9 w-64 pl-6 pr-16 text-sm transition-all delay-100 ease-in outline-none text-black`}
               placeholder="Search..."
             />
             <button
+              onClick={handleShowInput}
               type="submit"
               className="absolute right-3 text-xl h-9 w-9 rounded-full bg-[#ffffff0d]"
             >
-              <BsSearch className="m-auto" />
+              <BsSearch className="m-auto text-white" />
             </button>
-            {/* <button type="button" className="md:hidden text-2xl">
-              <BsSearch />
-            </button> */}
-            {/* <div className="relative w-full hidden md:flex h-full focus-within:block items-center"> */}
-            {/* <button type="button" className="md:hidden text-2xl">
-              <BsSearch />
-            </button> */}
-            {/* <input
-                type="text"
-                className="absolute block w-52 focus:w-full p-2 pl-10 text-sm focus:h-full transition-all delay-100 100ms ease-in-out;"
-                placeholder="Search..."
-              /> */}
-            {/* </div> */}
           </form>
         </div>
 

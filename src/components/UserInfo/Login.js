@@ -109,7 +109,7 @@ export default function Login() {
               <label className="text-base font-bold"> Email </label>
               <input
                 ref={emailRef}
-                className="text-sm block w-full border-slate-400 focus:outline-none border h-9 py-1 px-2 rounded-sm focus:shadow-3xl focus:border-[#007185]"
+                className={`text-sm block w-full border-slate-400 focus:outline-none border h-9 py-1 px-2 rounded-sm focus:shadow-3xl focus:border-[#007185]`}
                 required
                 name="email"
                 type="text"
@@ -121,7 +121,7 @@ export default function Login() {
               <p
                 className={
                   emailFocus && email && !validEmail
-                    ? "instruction text-xs pt-1"
+                    ? "instruction text-xs pt-1 text-red-500"
                     : "hidden"
                 }
               >
@@ -133,7 +133,7 @@ export default function Login() {
               <label className="text-base font-bold"> Password </label>
               <input
                 required
-                className="py-1 px-2 text-sm block w-full border focus:outline-none border-slate-400 h-9 rounded-sm focus:shadow-3xl focus:border-[#007185]"
+                className={`py-1 px-2 text-sm block w-full border focus:outline-none border-slate-400 h-9 rounded-sm focus:shadow-3xl focus:border-[#007185]`}
                 name="password"
                 type="password"
                 autoComplete="off"
@@ -144,7 +144,9 @@ export default function Login() {
               />
               <p
                 className={
-                  pwdFocus && !validPwd ? "instruction text-xs pt-1" : "hidden"
+                  pwdFocus && !validPwd
+                    ? "instruction text-xs pt-1 text-red-500"
+                    : "hidden"
                 }
               >
                 Minimum eight characters, at least one uppercase letter, one
