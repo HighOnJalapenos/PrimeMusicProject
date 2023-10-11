@@ -13,6 +13,7 @@ import Search from "./pages/Search";
 import SearchResults from "./components/SearchResults";
 import { useEffect } from "react";
 import { isUserLoggedIn } from "./redux/features/userSlice";
+import Podcast from "./pages/Podcast";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/Library" element={<Likes />} />
           <Route path="*" element={<Home />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/podcast" element={<Podcast />} />
           <Route path="/search/:searchQuery" element={<SearchResults />} />
         </Routes>
       </div>

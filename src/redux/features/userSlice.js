@@ -37,7 +37,6 @@ const userSlice = createSlice({
     },
 
     setFavSongs: (state, action) => {
-      console.log(action.payload);
       state.favSongs = action.payload.map((song) => {
         return song._id;
       });

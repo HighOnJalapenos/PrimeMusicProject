@@ -89,7 +89,10 @@ export default function Navbar() {
                 </span>
               </li>
             </NavLink>
-            <NavLink to="">
+            <NavLink
+              to="/podcast"
+              className={({ isActive }) => (isActive ? "text-[#25d1da]" : "")}
+            >
               <li className="text-xl flex items-center pr-5 hover:text-[#a8edf0]">
                 <BiPodcast className="text-2xl" />
                 <span className="px-3 text-base font-bold  lg:block hidden">
