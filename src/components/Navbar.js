@@ -2,22 +2,24 @@ import { BsSearch } from "react-icons/bs";
 import { GoHomeFill } from "react-icons/go";
 import { BiPodcast } from "react-icons/bi";
 import { FaHeadphones } from "react-icons/fa";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRef, useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { useDispatch } from "react-redux";
-import { setUserLogOut } from "../redux/features/userSlice";
 import { useNavigate } from "react-router-dom";
+import Portal from "./Portal/Portal";
+import NavbarDropdown from "./Portal/NavbarDropdown";
 
 export default function Navbar() {
-  const dispatch = useDispatch();
-  const { name, isLoggedIn } = useSelector((state) => state.user);
-  const [dropDownVisible, setDropDownVisible] = useState(false);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [showInput, setShowInput] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const inputRef = useRef();
+
+  const onModalClose = () => {
+    document.documentElement.style.overflow = "";
+    setShowModal(false);
+  };
 
   const handleShowInput = () => {
     if (window.innerWidth < 768) {
@@ -40,18 +42,7 @@ export default function Navbar() {
   };
 
   const handleDropDownVisibility = () => {
-    setDropDownVisible(!dropDownVisible);
-  };
-
-  const handleSignOut = (e) => {
-    e.stopPropagation();
-    setDropDownVisible(false);
-    dispatch(setUserLogOut());
-  };
-
-  const handleLogIn = (e) => {
-    e.stopPropagation();
-    setDropDownVisible(false);
+    setShowModal(true);
   };
 
   const handleSearch = (e) => {
@@ -157,36 +148,13 @@ export default function Navbar() {
           >
             <CgProfile />
           </button>
-          {dropDownVisible && (
-            <div className="absolute group-hover:block max-w-80 top-[72px] sm:w-80 lg:right-12 md:right-10 sm:right-6 right-0 w-full z-50 bg-[#000000ea] rounded-lg">
-              <div className="mt-2 flex flex-col items-center justify-center py-10">
-                {!isLoggedIn ? (
-                  <Link className="w-full text-center" to="/login">
-                    <button
-                      onClick={handleLogIn}
-                      className="text-sm border border-slate-400 w-[80%] py-2 px-1 bg-[#25d1da] hover:bg-[#a8edf0] rounded-full hover:scale-110"
-                    >
-                      Log In
-                    </button>
-                  </Link>
-                ) : (
-                  <>
-                    <p className="text-sm text-white w-[80%] py-2 pb-1 text-center">
-                      Hello, {name}!
-                    </p>
-                    <button
-                      onClick={handleSignOut}
-                      className="text-sm border border-slate-400 w-[80%] py-2 px-1 bg-[#25d1da] hover:bg-[#a8edf0] rounded-full hover:scale-110"
-                    >
-                      Sign Out
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
         </div>
       </div>
+      {showModal && (
+        <Portal>
+          <NavbarDropdown onClose={onModalClose} />
+        </Portal>
+      )}
     </nav>
   );
 }

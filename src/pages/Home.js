@@ -2,6 +2,7 @@ import SmallCarousel from "../components/SmallCarousel";
 import BigSongCarousel from "../components/Big Carousel/BigSongCarousel";
 import BigArtistCarousel from "../components/Big Carousel/BigArtistCarousel";
 import BigAlbumCarousel from "../components/Big Carousel/BigAlbumCarousel";
+import MusicPreference from "./MusicPreference";
 
 import {
   useGetTopChartsQuery,
@@ -11,6 +12,8 @@ import {
   useGetTopArtistQuery,
   useGetTopAlbumsQuery,
 } from "../redux/services/shazamCore";
+import { Route, Routes } from "react-router-dom";
+import GetHelp from "./GetHelp";
 
 function Home() {
   const { data: trendingSong } = useGetTopChartsQuery();
@@ -37,6 +40,10 @@ function Home() {
       <SmallCarousel data={happySong} mood={"Happy"} />
 
       <BigSongCarousel data={trendingSong} />
+      <Routes>
+        <Route path="/musicPreference" element={<MusicPreference />} />
+        <Route path="/getHelp" element={<GetHelp />} />
+      </Routes>
     </>
   );
 }
