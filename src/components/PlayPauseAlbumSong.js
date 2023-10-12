@@ -1,5 +1,6 @@
 import PlayPause from "./PlayPause";
 import PlayingGif from "../assets/EQ_accent.gif";
+import { FaPlayCircle } from "react-icons/fa";
 
 export default function PlayPauseAlbumSong({
   song,
@@ -38,6 +39,13 @@ export default function PlayPauseAlbumSong({
         }`}
       >
         <img className="h-7 w-7 object-cover" src={PlayingGif} alt="" />
+      </div>
+      <div
+        className={`absolute inset-0 overflow-hidden group-hover:hidden rounded-full items-center justify-center ${
+          activeSong?.title === song?.title && !isPlaying ? "flex" : "hidden"
+        }`}
+      >
+        <FaPlayCircle size={35} className="text-gray-300" />
       </div>
     </div>
   );
