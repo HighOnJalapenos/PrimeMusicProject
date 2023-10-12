@@ -23,9 +23,9 @@ export default function Navbar() {
 
   const handleShowInput = () => {
     if (window.innerWidth < 768) {
-      console.log(!showInput && inputRef.current);
       !showInput && inputRef.current.focus();
       setShowInput(!showInput);
+      navigate("/search");
     }
   };
 
@@ -126,7 +126,7 @@ export default function Navbar() {
               onChange={updateSearchTerm}
               type="text"
               className={`absolute md:block ${
-                window.innerWidth > 768
+                window.innerWidth >= 768
                   ? "block"
                   : showInput
                   ? "block z-[51] focus:fixed focus:left-0 focus:right-0 focus:top-0"

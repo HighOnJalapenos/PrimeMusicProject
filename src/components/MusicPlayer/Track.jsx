@@ -16,7 +16,7 @@ const Track = ({ isPlaying, isActive, activeSong }) => {
           className="rounded-full"
         />
       </div>
-      <div className="sm:w-[50%] w-full truncate">
+      <div className="sm:w-[50%] w-40 truncate">
         <p className="md:text-lg md:font-bold text-white truncate text-base">
           {activeSong?.title ? activeSong?.title : "No active Song"}
         </p>
