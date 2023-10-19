@@ -95,7 +95,9 @@ export default function Login() {
               />
               <p
                 className={
-                  nameFocus && !name ? "instruction text-xs pt-1" : "hidden"
+                  nameFocus && !name
+                    ? "instruction text-xs pt-1 text-red-500"
+                    : "hidden"
                 }
               >
                 Field cannot be empty
@@ -116,7 +118,7 @@ export default function Login() {
               <p
                 className={
                   emailFocus && email && !validEmail
-                    ? "instruction text-xs pt-1"
+                    ? "instruction text-xs pt-1 text-red-500"
                     : "hidden"
                 }
               >
@@ -138,7 +140,9 @@ export default function Login() {
               />
               <p
                 className={
-                  pwdFocus && !validPwd ? "instruction text-xs pt-1" : "hidden"
+                  pwdFocus && !validPwd
+                    ? "instruction text-xs pt-1 text-red-500"
+                    : "hidden"
                 }
               >
                 Minimum eight characters, at least one uppercase letter, one
