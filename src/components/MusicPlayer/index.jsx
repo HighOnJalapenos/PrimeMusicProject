@@ -23,8 +23,6 @@ const MusicPlayer = () => {
   const [shuffle, setShuffle] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(activeSong, currentSongs, currentIndex, isActive, isPlaying);
-
   useEffect(() => {
     if (currentSongs.length) dispatch(playPause(true));
   }, [currentIndex]);

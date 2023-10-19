@@ -1,8 +1,6 @@
 import React from "react";
 
 const Track = ({ isPlaying, isActive, activeSong }) => {
-  console.log(activeSong);
-
   return (
     <div className="flex items-center justify-start flex-1">
       <div

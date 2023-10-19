@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useRef, useEffect } from "react";
 
 const Player = ({
@@ -12,7 +11,6 @@ const Player = ({
   repeat,
 }) => {
   const ref = useRef(null);
-  // eslint-disable-next-line no-unused-expressions
   if (ref.current) {
     if (isPlaying) {
       ref.current.play();
@@ -20,8 +18,6 @@ const Player = ({
       ref.current.pause();
     }
   }
-
-  console.log(activeSong);
 
   useEffect(() => {
     ref.current.volume = volume;
