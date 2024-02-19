@@ -35,7 +35,6 @@ export default function Likes() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res?.data.data.songs);
       setAlbum(res?.data.data.songs);
     } catch (err) {
       console.log(err?.response?.data?.message);
@@ -48,7 +47,6 @@ export default function Likes() {
   };
 
   const handlePlayClick = (song, data, i) => {
-    console.log(data);
     dispatch(setActiveSong({ song, data, i }));
     dispatch(playPause(true));
   };
@@ -60,7 +58,6 @@ export default function Likes() {
 
   const onModalClose = () => {
     navigate("/");
-    console.log("debug");
   };
 
   const handleFav = (song) => {
@@ -133,7 +130,6 @@ export default function Likes() {
         </div>
 
         <div className="pt-3 md:px-14 px-0">
-          {console.log(album)}
           <ul>
             {album?.map((song, i, data) => {
               return (

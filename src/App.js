@@ -14,6 +14,7 @@ import SearchResults from "./components/SearchResults";
 import { useEffect } from "react";
 import { isUserLoggedIn } from "./redux/features/userSlice";
 import Podcast from "./pages/Podcast";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,16 +25,16 @@ function App() {
   const { activeSong } = useSelector((state) => state.player);
   return (
     <div className="scroll-smooth relative no-scrollbar">
+      <ScrollToTop />
       <div className="min-h-[100vh] hide-scrollbar pt-[72px] pb-28">
         <Navbar />
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Home />} />
           <Route path="/album/:id" element={<Album />} />
           <Route path="/artists/:id" element={<Artist />} />
           <Route path="/Library" element={<Likes />} />
-          <Route path="*" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/podcast" element={<Podcast />} />
           <Route path="/search/:searchQuery" element={<SearchResults />} />

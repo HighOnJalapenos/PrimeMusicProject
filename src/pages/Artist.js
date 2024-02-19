@@ -11,9 +11,8 @@ import { playPause, setActiveSong } from "../redux/features/playerSlice";
 
 export default function Artist() {
   const { id: artistID } = useParams();
-  const { data, isFetching, isError } = useGetArtistDetailsQuery(artistID);
+  const { data, isError } = useGetArtistDetailsQuery(artistID);
   const artistData = data?.data;
-  console.log(artistData);
 
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const [duration, setDuration] = useState([]);
@@ -24,7 +23,8 @@ export default function Artist() {
   };
 
   const handlePlayClick = (song, data, i) => {
-    dispatch(setActiveSong({ song, data, i }));
+    const { songs } = data.data;
+    dispatch(setActiveSong({ song, data: songs, i }));
     dispatch(playPause(true));
   };
 
@@ -35,7 +35,7 @@ export default function Artist() {
 
   // Make error component here TODO
   if (isError) {
-    return <div>Something wenf wrong</div>;
+    return <div>Something went wrong</div>;
   }
 
   return (

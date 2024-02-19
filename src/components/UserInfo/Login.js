@@ -47,7 +47,6 @@ export default function Login() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
       dispatch(setFavSongs(res?.data?.data?.songs));
     } catch (err) {
       console.log(err?.response?.data?.message);
@@ -56,7 +55,6 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("debug");
     try {
       const res = await axios.post(
         "/user/login",

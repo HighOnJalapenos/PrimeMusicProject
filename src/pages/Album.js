@@ -87,7 +87,6 @@ export default function Album() {
   const dateString = album?.release.slice(0, 10);
   const date = new Date(dateString);
   const releaseDate = date.toDateString();
-  console.log(album, "album");
 
   const artistNames =
     artists.length <= 3
@@ -195,7 +194,6 @@ export default function Album() {
 }
 
 function ArtistBeatifiedNames({ artist }) {
-  // const getNames = async () => {
   const names = artist?.map((artistID) => {
     return (
       <span key={artistID} className="artist-name">
@@ -204,11 +202,6 @@ function ArtistBeatifiedNames({ artist }) {
     );
   });
   return names;
-  // };
-  // getNames();
-  // return names
-  //   ? [names.slice(0, -1).join(", "), names.slice(-1)].join(" & ")
-  //   : "";
 }
 
 function ArtistDetails({ artistID }) {

@@ -18,12 +18,10 @@ function SmallCarousel({ mood, data }) {
   };
 
   const handlePlayClick = (song, data, i) => {
-    console.log("debug");
     dispatch(setActiveSong({ song, data, i }));
     dispatch(playPause(true));
   };
 
-  // Functionality for the arrow
   let scrl = useRef(null);
   let size = useRef(null);
   const [scrollX, setscrollX] = useState(0);
@@ -92,83 +90,3 @@ function SmallCarousel({ mood, data }) {
 }
 
 export default SmallCarousel;
-
-// function SmallCarousel() {
-//   return (
-//     <>
-//       <Swiper
-//         modules={[Grid, Pagination]}
-//         breakpoints={{
-//           640: {
-//             slidesPerView: 2,
-//           },
-//           768: {
-//             slidesPerView: 3,
-//           },
-//           1024: {
-//             slidesPerView: 4,
-//           },
-//         }}
-//         grid={{
-//           rows: 3,
-//         }}
-//         className="pySwiper"
-//       >
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           <SmallCard />
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 2
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 3
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 4
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 5
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 6
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 7
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 8
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 9
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 10
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 11
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 12
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 13
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 14
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 15
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 16
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 17
-//         </SwiperSlide>
-//         <SwiperSlide className="py-2 text-center border-blue-300 border-2 shadow-lg">
-//           Slide 18
-//         </SwiperSlide>
-//       </Swiper>
-//     </>
-//   );
-// }
